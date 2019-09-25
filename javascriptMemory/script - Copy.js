@@ -97,10 +97,10 @@ function processOnClick(event){
 }
 
 function colorChange(){
-	if (moves >= originalAmount*1.5) {
+	if (moves >= originalAmount*2) {
 		document.getElementById("moves").setAttribute("class", "yellow")
 	}
-	if (moves >= originalAmount*2) {
+	if (moves >= originalAmount*3) {
 		document.getElementById("moves").setAttribute("class", "red")
 	}
 	if (score >= originalAmount/4) {

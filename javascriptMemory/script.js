@@ -36,7 +36,7 @@ function collectData(){
 
 	var oReq = new XMLHttpRequest();
 	oReq.addEventListener("load", reqListener);
-	oReq.open("GET", "http://localhost/javascriptMemory/config.php");
+	oReq.open("GET", "http://localhost/javascriptMemory/javascriptMemory/config.php");
 	oReq.send();
 }
 
@@ -97,10 +97,10 @@ function processOnClick(event){
 }
 
 function colorChange(){
-	if (moves >= originalAmount*2) {
+	if (moves >= originalAmount*1.5) {
 		document.getElementById("moves").setAttribute("class", "yellow")
 	}
-	if (moves >= originalAmount*3) {
+	if (moves >= originalAmount*2) {
 		document.getElementById("moves").setAttribute("class", "red")
 	}
 	if (score >= originalAmount/4) {
@@ -164,9 +164,8 @@ function removeSameHighlights(){
 }
 
 function checkDouble(newestClick){
+	
 	if (clicked == 1) {
-
-		console.log(newestClick, clickedCard)
 
 		if (clickedCard == newestClick) {
 			//remove both cards
