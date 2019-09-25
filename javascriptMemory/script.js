@@ -4,6 +4,8 @@ var score = 0;
 
 var moves = 0;
 
+var wins = 0;
+
 var clicked = 0;
 
 //var amountOfCards = 1;
@@ -25,6 +27,7 @@ var types = "";
 var originalAmount = 0;
 
 function collectData(){
+	console.log("I've run "+wins+" times")
 		function reqListener () {
 			console.log(this.response);
 			types = JSON.parse(this.response);
@@ -89,9 +92,25 @@ function processOnClick(event){
 	console.dir(event);
 	var memoryCardNr = event.target.memoryCardNr;
 	var memoryCardType = event.target.memoryCardType;
-	highlightCard(memoryCardNr);
-	checkDouble(memoryCardType);
-	colorChange();
+	var currentCardNr = document.getElementById(memoryCardNr);
+	if (clicked == 2) {
+		alert("wait for the cards to reset");
+	}
+	else {
+		if (currentCardNr.classList.contains('highlight')) {
+			alert("you can't click the same card twice")
+		}
+		else {
+			highlightCard(memoryCardNr);
+			checkDouble(memoryCardType, memoryCardNr);
+			colorChange();
+		}
+	}
+	
+	
+	
+	
+	
 	//checkDouble("cardSet[0]+types[i]");
 	//highlightCard();
 }
@@ -111,31 +130,39 @@ function colorChange(){
 	}
 	if (score == originalAmount/2) {
 		alert("You've won!");
+		if (moves <= score+2) {
+			alert("This victory wasn't earned, cheater...")
+		}
+		wins++;
+		document.getElementById("wins").innerHTML = wins;
+		for (var i = 0; i < originalAmount; i++) {
+			el=document.getElementById("card"+i);
+			el.remove();
+		}
+		moves = 0;
+		score = 0;
+		clicked = 0;
+		document.getElementById("moves").innerHTML = moves;
+		document.getElementById("moves").setAttribute("class", "green")
+		document.getElementById("score").setAttribute("class", "red")
+		document.getElementById("score").innerHTML = score;
+		collectData();
 	}
 }
 
 function highlightCard(highlightedCard){
 	if (clicked == 0) {
-		document.getElementById(highlightedCard).onclick = clickedTheSame;
+		//document.getElementById(highlightedCard).onclick = clickedTheSame;
 		firstHighlight = highlightedCard;
 		document.getElementById(highlightedCard).setAttribute("class", "highlight");
 	}
 	else {
 		if (clicked == 1) {
-			document.getElementById(highlightedCard).onclick = clickedTheSame;
+			//document.getElementById(highlightedCard).onclick = clickedTheSame;
 			secondHighlight = highlightedCard;
 			document.getElementById(highlightedCard).setAttribute("class", "highlight");
 		}
-		else {
-			if (clicked == 2) {
-				
-			}
-			else {
-
-			}
-		}
 	}
-	
 }
 
 function removeDifferentHighlights(){
@@ -150,6 +177,7 @@ function removeDifferentHighlights(){
 
 	document.getElementById(firstHighlight).setAttribute("class", "regular");
 	document.getElementById(secondHighlight).setAttribute("class", "regular");
+	clicked = 0;
 	
 
 }
@@ -161,27 +189,30 @@ function clickedTheSame(){
 function removeSameHighlights(){
 	document.getElementById(firstHighlight).setAttribute("class", "hide");
 	document.getElementById(secondHighlight).setAttribute("class", "hide");
+	clicked = 0;
 }
 
-function checkDouble(newestClick){
-	
+function checkDouble(newestClick, newestNumber){
 	if (clicked == 1) {
 
 		if (clickedCard == newestClick) {
 			//remove both cards
 			score++;
-			clicked = 0;
+			clicked++;
 			moves++;
 			document.getElementById("moves").innerHTML = moves;
 			document.getElementById("score").innerHTML = score;
-			alert("Well done! You scored a point!");
+			if (score < originalAmount/2) {
+				alert("Well done! You scored a point!");
+			}
+			
 			//removeSameHighlightsTimeOut;
-			document.getElementById(firstHighlight).onclick = clickedTheSame;
-			document.getElementById(secondHighlight).onclick = clickedTheSame;
+			//document.getElementById(firstHighlight).onclick = clickedTheSame;
+			//document.getElementById(secondHighlight).onclick = clickedTheSame;
 			setTimeout(removeSameHighlights, 1000);
 		}
 		else {
-			clicked = 0;
+			clicked++;
 			moves++;
 			document.getElementById("moves").innerHTML = moves;
 			//removeDifferentHighlightsTimeOut;

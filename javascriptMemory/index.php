@@ -10,6 +10,7 @@
 		<h1>MEMORY</h1>
 		<p>score:</p><p id="score" class="red">0</p>
 		<p>moves:</p><p id="moves" class="green">0</p>
+		<p>wins:</p><p id="wins" class="wins">0</p>
 	</div>
 	<div class="playArea">
 			

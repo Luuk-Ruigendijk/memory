@@ -2,7 +2,6 @@
 	border-style: none;
 	height: 220px;
 	width: 158px;
-	content: url("images/cardback.png");
 
 }
 
@@ -36,6 +35,10 @@
 
 .green{
 	color: green;
+}
+
+.wins{
+	color: cyan;
 }
 
 h1{
